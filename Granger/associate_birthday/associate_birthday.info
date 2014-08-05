@@ -1,0 +1,5 @@
+name = Associate Birthday
+description = Provides a way to show associates birthdays based on the date in their profile
+core = 7.x
+
+files[] = associate_birthday.inc

@@ -1,0 +1,52 @@
+<?php
+
+function current_birthday_contents(){
+	$now = date('Y-m-d', strtotime('now'));
+	$week = date('Y-m-d', strtotime('+7 day'));
+	
+	$subquery = db_select('birthday_generator_mytable', 'g');
+	$subquery->join('node', 'n', 'n.nid = g.entity_id');
+			$subquery->fields('g', array('entity_id'));	
+			$subquery->condition('g.this_year', array($now, $week), 'BETWEEN');
+			//$subquery->groupBy('this_year');
+			
+	$query = db_select('field_data_field_associate_birthday', 'b');
+	$query->join('node', 'n', 'n.nid = b.entity_id');
+	$query->join('field_data_field_associate_anniversary', 'a', 'n.nid = a.entity_id');
+	$query->join('field_data_field_associate_first_name', 'f', 'n.nid = f.entity_id');
+	$query->join('field_data_field_associate_last_name', 'l', 'n.nid = l.entity_id');
+	$results = $query
+		->fields('b', array('field_associate_birthday_value'))
+		->fields('a', array('field_associate_anniversary_value'))
+		->fields('n', array('title'))
+		->fields('n', array('nid'))
+		->fields('f', array('field_associate_first_name_value'))
+		->fields('l', array('field_associate_last_name_value'))
+		->condition('n.nid', $subquery, 'IN')
+		->orderBy( 'field_associate_birthday_value')
+		->execute();
+
+	 $display = $results->fetchAll();
+	// dpm($display);
+	// dpm($query);
+	 $birthday_message = array();
+	//dpm($query->__toString());
+	//dpm($subquery->__toString());
+	 foreach ($display as $birthday){
+		$birthdate = new DateTime($birthday->field_associate_birthday_value);
+		$newBirthdate = $birthdate->format('F j');
+		$birthday_message[$birthday->nid] = t('Wish '. $birthday->field_associate_first_name_value .' '.  $birthday->field_associate_last_name_value  . ' a Happy Birthday '.$newBirthdate .'!');
+	}
+	//asort($birthday_message);
+	print t('<h2>Birthdays This Week</h2>');
+	if (!empty($birthday_message)){
+		foreach ($birthday_message as $k=>$value){
+			print $happy_birthday =  "</br>" . $value;
+		}
+	}
+	else{
+		print 'There are no birthdays to celebrate this week.';
+	}
+	//dpm($birthday_message);
+}	
+	 
