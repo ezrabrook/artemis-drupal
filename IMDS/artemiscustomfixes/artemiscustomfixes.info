@@ -1,0 +1,5 @@
+name = Artemis Custom Fixes
+description = Fixes workflow tabs (so far)
+core = 6.x
+dependencies[] = workflow
+package = "Custom"
