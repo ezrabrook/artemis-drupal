@@ -1,0 +1,88 @@
+/*Format and CSS for 
+* Tablet and Mobile between
+* 768px and 940px
+*/
+
+    @media only screen and (min-width: 768px) and (max-width: 1024px) and (orientation:landscape){
+    
+        .navbar{font-size: 1.25em; margin: 0 auto 0 auto; }
+	.header {margin: 0 -20px; padding:10px;}
+	.site-footer {margin: 0 -20px; padding:10px;}
+	#block-menu-menu-footer{display:none;}
+	.site-main-menu ul.menu li {border-right: none;}
+	.navbar .btn-navbar {position:absolute; top:20px; right:30px;	}
+	.carousel-indicators {float: left; position:relative; top: -48px; left: 15px;}
+	.carousel-caption { display:inline;}
+	
+	.carousel-caption h4{float:left; padding-left:130px; margin: 6px 0 10px; font-size:30px; letter-spacing:0.07em;}
+	.slideshow-button {float:right; margin-right:20px;}
+    }
+    @media only screen and (min-width: 768px) and (max-width: 1024px) and (orientation:portrait){
+    /*#logo img {display:none;}*/
+        .navbar{font-size: 1.25em; margin: 0 auto 0 auto; }
+	.header {margin: 0 -20px; padding:10px;}
+	.site-footer {margin: 0 -20px; padding:10px;}
+	#block-menu-menu-footer{display:none;}
+	.site-main-menu ul.menu li {border-right: none;}
+	.navbar .btn-navbar {position:absolute; top:20px; right:30px;	}
+	.slideshow-button {float:right; margin-right:20px;}
+	.carousel-indicators{float: left; position:relative; top: -48px; left: 15px;}
+	.carousel-caption {display:inline;}
+	.carousel-caption h4{float:left; padding-left:130px; margin: 6px 0 5px; font-size:30px; letter-spacing:0.07em;}
+    }
+/*iPad Portrait and Landscape */
+    @media only screen and (min-device-width: 768px) and (max-device-width: 1024px)
+    {
+        .navbar {font-size: 1.25em;}
+        .pelogo {font-size: .95em;}
+	.header {margin: 0 -20px; padding:10px;}
+	.site-footer {margin: 0 -20px; padding:10px;}
+	#block-menu-menu-footer{display:none;}
+    }
+/*iPad Portrait Only */
+    @media only screen
+    and (min-device-width: 768px)
+    and (max-device-width: 1024px)
+    and (orientation: portrait) {
+        .carousel-caption h4{text-align:center;}
+        .carousel-caption a{text-align:center!important;}
+	.header {margin: 0 -20px; padding:10px;}
+	.site-footer { padding:10px;}
+	#block-menu-menu-footer{display:none;}
+	.sidebar_menu{ display:none;}
+
+    } 
+
+/*iPad Landscape Only */
+    @media only screen
+    and (min-device-width: 768px)
+    and (max-device-width: 1024px)
+    and (orientation: landscape){
+        .carousel-inner img {width: 940px;}
+        .carousel-caption h4{text-align:center;}
+        .carousel-caption a{text-align:center!important;}
+	.header {margin: 0; padding:10px;}
+	.site-footer {margin: 0 -20px; padding:10px;}
+	#block-menu-menu-footer{display:none;}
+	.apply_now h2 {font-size:28.5px;}
+    }
+
+    @media only screen and (min-width: 768px) and (max-width: 1024px){
+	
+	.apply_now h2 {font-size:28.5px;}
+    }
+
+/*Small Desktop Fix*/
+	@media only screen 
+	and (min-device-width: 979px) 
+	and (max-device-width: 1024px){
+	#block-menu-menu-footer {display:none;}
+	
+	}
+    
+    @media only screen and (max-width: 1024px){
+	.navbar .btn-navbar {position:absolute; top:20px; right:30px;}
+	.navbar {margin: 0 auto 0 auto; }
+	.navbar-inner {padding:0;}
+	p{font-size: 16px;}
+    }

@@ -1,0 +1,76 @@
+@media all and (max-width:767px) {
+	/* Header */
+	#top_header .hdfs_logo {padding:0; }
+	#top_header .search_bar .mobile_search_icon {font-size:30px; color:#18453b; text-align:center; margin: 2px 10px -3px;}
+	#top_header .search_bar .mobile_search_icon .search-toggle {background:none; border:0; display:inline!important;}
+	#top_header .menu_wrapper {padding-right:0;}
+	#top_header .main_menu {padding:11px 10px 12px;}
+	.mobile_tablet_menu .mobile_search {padding:5px; background:#e6e6e6;}
+	.mobile_tablet_menu .mobile_search #search {width:95%; margin:auto;}
+	.mobile_tablet_menu .mobile_search label {display:none;}
+	.mobile_tablet_menu .mobile_search #edit-search-theme-form-1 {padding-left:10px; width:100%; border-radius:10px; -moz-border-radius:10px; -webkit-border-radius:10px; border:none; color:#999;}
+	.mobile_tablet_menu .mobile_search #edit-submit-1 {display:none;}
+
+	/* Rotator */
+	#rotator {margin-top:0;}
+	#views_slideshow_singleframe_teaser_section_home_rotator-block_1 {margin-bottom:41px;}
+	#views_slideshow_singleframe_teaser_section_home_rotator-block_1, .views_slideshow_singleframe_slide, .views_slideshow_singleframe_slide img {width:100%!important; height:295px!important;}
+	.view-home-rotator .rotator_text .rotator_title {text-transform:none; height:41px;}
+	.view-home-rotator .rotator_text .rotator_title a h2 {font-size:14px;}
+	.view-home-rotator .views-slideshow-controls-bottom .views_slideshow_previous, .view-home-rotator .views-slideshow-controls-bottom .views_slideshow_next {display:none;}
+
+	/* Main Menu */
+	.mobile_tablet_menu .menu_collapse {margin-bottom:0;}
+
+	/* Sub page */
+	#main .sub_content_area .content img {display:block; height:auto;  float:none!important;}
+
+	/* Footer */
+	#footer .copyright_wrapper {margin-left:0;}
+	#footer .mobile_footer_links {margin-bottom:10px;}
+	#footer .mobile_footer_links .mobile_link {width:50px; height:50px; margin-left:5px; background:#ccc; border-radius:50%; padding:5px; float:right;}
+	#footer .mobile_footer_links .mobile_link a {width:39px; height:39px;}
+	#footer .mobile_footer_links .mobile_donations a {background:url(images/donation_icon.png) no-repeat center center; display:block;}
+	#footer .mobile_footer_links .mobile_sitemap a {background:url(images/sitemap_icon.png) no-repeat center center; display:block;}
+	#footer .mobile_footer_links .mobile_contact a {background:url(images/contact_icon.png) no-repeat center center; display:block;}
+	#footer .social_science_wrapper {width:20%!important; position:relative; left:43%;}
+	#footer .msu_logo_wrapper {width:40%!important; float:right;}
+	/*Faculty*/
+	#mobileaddress {border-left:2px dashed #B3B3B3; margin-left:10px; margin-top:10px; }
+	#profile address, .email, .phone {margin-left:-36px;margin-top:10px;}
+	#extendedbio, #extendedinfo {margin-left:10px;}
+	.faculty_email {left:255px;}
+	/*Features*/
+	.feature_right{padding-left:8px!important;}
+	.image_caption_features {display:none;}
+	/*Search*/
+	#edit-keys-wrapper #edit-keys{width:200px;}
+	
+}
+
+@media all and (max-width:640px) {
+	/* Rotator */
+	#views_slideshow_singleframe_teaser_section_home_rotator-block_1, .views_slideshow_singleframe_slide, .views_slideshow_singleframe_slide img {width:100%!important; height:246px!important;}
+
+	/* Home Page Programs */
+	.view-area-of-focus .views-row {min-height:100%!important; margin:0 0 20px!important;}
+	.view-area-of-focus .program_description, .view-area-of-focus .program_image_wrapper {display:none;}
+	
+}
+@media all and (max-width:520px) {
+	/* .feature_right{width:58%;} */
+	#profile .col-xs-6 {width:85%;}
+	
+}
+@media all and (max-width:415px) {
+	#top_header .search_bar .mobile_search_icon {margin:2px -5px -3px;}
+}
+@media all and (max-width:350px) {
+	/* Rotator */
+	#views_slideshow_singleframe_teaser_section_home_rotator-block_1, .views_slideshow_singleframe_slide, .views_slideshow_singleframe_slide img {width:100%!important; height:135px!important;}
+	#top_header .main_menu .navbar-toggle .icon-bar {width:20px;}
+	/*Features*/
+/* 	.feature_left, .feature_thumbnail_square_responsive img {display:none!important;}
+	.feature_right {width:96%;} */
+	.faculty_email {left:75%;}
+}

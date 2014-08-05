@@ -1,0 +1,728 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=10"/>
+    <meta http-equiv="pragma" content="no-cache"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="default"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="viewport" content="user-scalable=0, width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+    <title>Outlook Web App</title>
+
+    <script>
+        var palEnabled = false;
+    </script>
+
+    <script>//-----------------------------------------------------------------------
+// <copyright file="Default.js" company="Microsoft Corp.">
+//     Copyright (c) . All rights reserved.
+// </copyright>
+// <summary>
+//  This is the javascript code used for the default.aspx page.  We embed it in the default.aspx page.  We inline the code then from the server to reduce the number of requests we make.
+// </summary>
+//-----------------------------------------------------------------------
+
+var LT_ANY = "Any";
+var LT_MOUSE = "Mouse";
+var LT_TNARROW = "TNarrow";
+var LT_TWIDE = "TWide";
+
+function loadSlabSources(sScriptsFolder, sources, currentLayout) {
+    for (var i = 0; i < sources.length; i++) {
+        var source = sources[i];
+
+        if (!source.layout
+            || currentLayout.toLowerCase() == source.layout.toLowerCase()
+            || source.layout.toLowerCase() == "any") {
+            var fullPath = sScriptsFolder + "/" + source.name;
+            document.write("<script src='" + fullPath + "'><\/" + "script>");
+        }
+    }
+}
+
+function userEnabledOffline() {
+  if (palEnabled) {
+        return true;
+    } else if (window.localStorage) {
+        var settingValue = window.localStorage['userEnabledOffline'] || "";
+        return settingValue !== 'false' && settingValue != null && settingValue != "";
+    }
+}
+
+function determineLayout(userAgent, queryString, width, height, touchSupported) {
+
+    // Set defaults if inputs are null
+    userAgent = userAgent || navigator.userAgent;
+    queryString = queryString || window.location.search.substring(1);
+    width = width || screen.width;
+    height = height || screen.height;
+    touchSupported = touchSupported || ("ontouchstart" in window.document) || navigator.msMaxTouchPoints > 0;
+
+    if (!userAgent && !queryString) {
+        return "mouse";
+    }
+
+    var queryStrings = queryString.split("&");
+    var keyVal;
+
+    // Determine layout by query string
+    for (i = 0; i < queryStrings.length; i++) {
+
+        // site mailbox OWA access will have "sharepointapp=true" in query string,
+        // always use "mouse" layout to show chrome header for back to share point.
+        if (queryStrings[i].toLowerCase() == "sharepointapp=true") {
+            return "mouse";
+        }
+
+        keyVal = queryStrings[i].split("=");
+        if (keyVal.length == 2 && keyVal[0] == "layout") {
+            var val = keyVal[1].toLowerCase();
+
+            if (val == "mouse") {
+                return "mouse";
+            }
+
+            if (val == "tnarrow" || val == "touchnarrow") {
+                return "tnarrow";
+            }
+
+            if (val == "twide" || val == "touchwide") {
+                return "twide";
+            }
+        }
+    }
+
+    var isIos = userAgent.indexOf("iPhone") > -1 || userAgent.indexOf("iPad") > -1 || userAgent.indexOf("iPod") > -1;
+
+    // Determine layout by touch capability
+    if (!touchSupported || !isIos) {
+        return "mouse";
+    }
+
+    var narrowToWideLimit = 600;
+
+    if ((width <= narrowToWideLimit) || (height <= narrowToWideLimit)) {
+        return "tnarrow";
+    }
+
+    return "twide";
+}
+
+/// <summary>
+/// Will include the given scripts into the page using script tags
+/// </summary>
+/// <param name="sBasePath">The base path for the script.  e.g. 15.0.0311/owa2/scripts</param>
+function includeScripts(sScriptsFolder, scripts) {
+    // Loop through each script, compare layout with the script type, if it matches include it
+    for (var i = 0; i < scripts.length; i++) {
+        var scriptObj = scripts[i];
+        var fileName = scriptObj["fileName"];
+        var fullPath = sScriptsFolder + fileName;
+        document.write("<script src='" + fullPath + "'><\/" + "script>");
+    }
+}
+
+/// <summary>
+/// Will include the given styles into the page using link tags
+/// </summary>
+/// <param name="sStylesFolder">The base path for the styles.  e.g. 15.0.0311/owa2/resources/styles/</param>
+/// <param name="styles">The list of styles to add</param>
+/// <param name="currentLayout">Current layout</param>
+function includeStyles(sStylesFolder, styles, currentLayout) {
+    // We use matchMedia here instead of link media because link media will still download the css even when it doesn't match
+    var supportsHighResolution = window.matchMedia && window.matchMedia("screen and (-webkit-min-device-pixel-ratio: 2)").matches;
+
+    // Loop through and add any extra layout dependant styles
+    for (var i = 0; i < styles.length; i++) {
+        var styleObj = styles[i];
+
+        // Pull out the script file name and layout type
+        var styleFileName = styleObj["fileName"];
+        var styleLayout = styleObj["layout"];
+
+        if (sStylesFolder !== "" && sStylesFolder[sStylesFolder.length - 1] != "/") {
+            sStylesFolder += "/";
+        }
+
+        var styleFullPath = sStylesFolder + styleFileName;
+
+        // If it matches the current layout then lets include the styles
+        if (styleLayout.toLowerCase() === currentLayout.toLowerCase() || styleLayout.toLowerCase() === "any") {
+
+            // If this is a high resolution css then we need to do some more checking
+            if (styleObj["highResolution"])
+            {
+                // Only include the link if we support it on this browser
+                if (supportsHighResolution)
+                {
+                    document.write("<link href='" + styleFullPath + "' rel='stylesheet' type='text/css'>");
+                }
+            }
+            else
+            {
+                document.write("<link href='" + styleFullPath + "' rel='stylesheet' type='text/css'>");
+            }
+        }
+    }
+}
+
+/// <summary>
+/// Will include all scripts and styles into the page using script tags
+/// </summary>
+/// <param name="sBasePath">The base path for the script.  e.g. 15.0.0311/owa2/scripts</param>
+function includeScriptsAndStyles(slabManifest, sScriptsFolder, sStylesFolder, sImagesFolder, fAnonCalendar) {
+    // Get the current layout using code in the s# layer
+    var currentLayout = determineLayout();
+
+    for (var slabName in slabManifest) {
+        var shouldLoadSources = false;
+        if ((slabManifest[slabName] == slabManifest.boot) || fAnonCalendar) {
+            loadSlabSources(sScriptsFolder, slabManifest[slabName].Sources, currentLayout);
+        }
+    }
+
+    // If the layout is mouse then lets include a favicon
+    if (currentLayout === "mouse") {
+        document.write("<link href='" + sImagesFolder + "/favicon.ico' rel='shortcut icon' type='image/x-icon'>");
+    }
+
+    // Add remote debugging script if we are in tnarrow or wide and have the cookies present
+    if ((currentLayout === "twide" || currentLayout === "tnarrow") &&
+        $.cookie("remoteDebuggingServer") &&
+        $.cookie("remoteDebuggingClientId")) {
+        document.write("<script src='" + "http://" + $.cookie("remoteDebuggingServer") + "/target/target-script-min.js#" + $.cookie("remoteDebuggingClientId") + "'><\/" + "script>");
+    }
+}
+
+var appcacheLoaded = false;
+(function trackUnhandledExceptionDuringBoot() {
+  if (palEnabled) {
+    return;
+  }
+
+  window.onerror = function handleError() {
+    if (appcacheLoaded) {
+      return;
+    }
+
+    redirect("bO", 1);
+  }
+})();
+
+function htmlDec(s) {
+  var o=document.createElement("div");
+  o.innerHTML=s;
+  return o.innerText||o.textContent;
+}
+
+function loadScripts(scripts) {
+  for (var i = 0; i < scripts.length; ++i) {
+      scripts[i]["fileName"] = scripts[i]["fileName"].replace('##LANG##', userLanguageVar).replace('##CULTURE##', userCultureVar).toLowerCase();
+  }
+  includeScripts("", scripts);
+}
+
+function loadStyles(styles) {
+  var currentLayout = determineLayout();
+  includeStyles("", styles, currentLayout);
+}
+
+function redirect(paramName1, paramValue1, paramName2, paramValue2) {
+    var newUrl = addParamsToUrl(window.location.href, paramName1, paramValue1);
+    if (paramName2 !== undefined) {
+        newUrl = addParamsToUrl(newUrl, paramName2, paramValue2);
+    }
+
+    if (newUrl != window.location.href) {
+        window.location.href = newUrl;
+    }
+}
+
+function addParamsToUrl(url, paramName, paramValue) {
+    var param = paramName + '=' + paramValue;
+
+    if (url.indexOf(param) >= 0) {
+        return url;   
+    }
+
+    var urlParts = url.split('#');
+    var clientParams = (urlParts.length == 1) ? "" : url.substr(url.indexOf('#'));
+
+    if (urlParts[0].indexOf('?') >= 0) {
+        url = urlParts[0] + "&" + param + clientParams;
+    } else {
+        url = urlParts[0] + "?" + param + clientParams;
+    }
+
+    return url;
+}
+
+function isMajorVersionChanged(cachedVersion, serverVersion)
+{
+    if (cachedVersion == null || serverVersion == null) {
+        return true;
+    }
+
+    var cachedVerParts = cachedVersion.split('.');
+    var serverVerParts = serverVersion.split('.');
+
+    if (cachedVerParts.length < 3 || serverVerParts.length < 3) {
+        return cachedVersion != serverVersion;
+    }
+
+    for (var i = 0; i < 3; ++i) {
+        if (cachedVerParts[i] != serverVerParts[i]) {
+            return true;
+        }
+    }
+
+    return false;  
+}</script>
+    
+    <script>
+      var userSpecificsLoaded = false,
+        appcacheVersion = true,
+        st = new Date(),
+        extDropScriptResources = [],
+        scriptResources = [],
+        styleResources = [],
+        userScriptResources = [],
+        clientTheme = 'base',
+        userCultureVar = 'en-US',
+        sver = '15.0.620.29',
+        userLanguageVar = 'en';
+
+      var slabManifest = {
+    "boot":{
+        "Types":["OwaStart"],
+        "Configurations":[{"type":"CoreFrameworkComponent"},{"type":"BootModelsComponent"},{"type":"CoreControlsComponent"},{"type":"CoreWebServicesComponent"},{"type":"ApplicationAppComponent"},{"type":"BootViewModelsComponent"},{"type":"BootViewsComponent"}],
+        "Sources":[{"name":"boot.0.js"},{"name":"boot.1.js"},{"name":"boot.0.mouse.js", "layout":"Mouse"},{"name":"boot.1.mouse.js", "layout":"Mouse"},{"name":"boot.0.narrow.js", "layout":"TNarrow"},{"name":"boot.1.narrow.js", "layout":"TNarrow"},{"name":"boot.0.wide.js", "layout":"TWide"},{"name":"boot.1.wide.js", "layout":"TWide"}]
+    },
+    "nonboot":{
+        "Types":["IPasswordPromptViewModel","IPopOutViewModel","IItemReadingPaneContextFactory","ICalendarModuleViewModel","ITelURIPersonaCardPopupViewModelFactory","IMailComposeContextFactory","IMailComposeViewModelFactory","ICompositePersonaViewModelFactory","IPredictedActionInfoBarViewModelFactory","IPeopleSearchSuggestionAdaptorViewModel","IPopOutHelper","ITaskReadingPaneViewModelFactory","ICalendarReadingPaneViewModelFactory","INotificationTrayViewModel","IPasswordPromptViewModel","IModuleHelpProvider","IPeopleModuleViewModel","IPeopleSuggestionLoader","ITasksModuleViewModel","IOptionsModuleViewModel","IItemPartPartnerViewModelFactory","IAttachmentWellViewModelFactory","IMailResponseViewModelFactory","ISettingsPanelFactory","SettingsPanelViewModelBase","ITelURIPersonaCardPopupViewModelFactory","IExtensibilityViewModelFactory","ICalendarMiniatureNextAppointmentManager","IPrimarySpeechViewModel","IMailComposeDiscardManager","IMeCardViewModelFactory","IOpenAnotherMailboxViewModel","ISharedFolderViewModel","IMailErrorHandler","ImportedEditorFactory","IChatActionFactory","IChatManager","IOfflineManager","IPresenceManager","IInferenceTracker","IFindPeopleActionFactory","IPopOutMailboxDataContextFactory"],
+        "Configurations":[{"type":"PalBootModelsComponent", "layout":"TNarrow"},{"type":"PalBootViewModelsComponent", "layout":"TNarrow"},{"type":"PalBootViewsComponent", "layout":"TNarrow"},{"type":"PalBootModelsComponent", "layout":"TWide"},{"type":"PalBootViewModelsComponent", "layout":"TWide"},{"type":"PalBootViewsComponent", "layout":"TWide"},{"type":"CoreModelsComponent"},{"type":"CoreViewModelsComponent"},{"type":"CoreViewsComponent"},{"type":"DesktopViewModelsComponent", "layout":"Mouse"},{"type":"DesktopControlsComponent", "layout":"Mouse"},{"type":"PalBootModelsComponent", "layout":"TNarrow"},{"type":"MobileModelsComponent", "layout":"TNarrow"},{"type":"MobileViewModelsComponent", "layout":"TNarrow"},{"type":"MobileControlsComponent", "layout":"TNarrow"},{"type":"MobileViewsComponent", "layout":"TNarrow"},{"type":"PalBootModelsComponent", "layout":"TWide"},{"type":"MobileModelsComponent", "layout":"TWide"},{"type":"MobileViewModelsComponent", "layout":"TWide"},{"type":"MobileControlsComponent", "layout":"TWide"},{"type":"MobileViewsComponent", "layout":"TWide"},{"type":"ApplicationViewModelsComponent"},{"type":"ApplicationViewsComponent"}],
+        "Sources":[{"name":"palboot.0.narrow.js", "layout":"TNarrow"},{"name":"palboot.1.narrow.js", "layout":"TNarrow"},{"name":"palboot.0.wide.js", "layout":"TWide"},{"name":"palboot.1.wide.js", "layout":"TWide"},{"name":"nonboot.0.js"},{"name":"nonboot.1.js"},{"name":"nonboot.0.mouse.js", "layout":"Mouse"},{"name":"nonboot.1.mouse.js", "layout":"Mouse"},{"name":"nonboot.0.narrow.js", "layout":"TNarrow"},{"name":"nonboot.1.narrow.js", "layout":"TNarrow"},{"name":"nonboot.0.wide.js", "layout":"TWide"},{"name":"nonboot.1.wide.js", "layout":"TWide"}]
+    },
+};
+      
+      function checkUTFEncoding() {
+          var decodedString = "你好A";
+          if (htmlDec("&#20320;&#22909;&#65;") != decodedString) {
+              alert("Outlook Web App requires your browser to use UTF-8 encoding. For your protection, you\u0027ll be signed out. Please set your browser encoding to UTF-8 and sign in again.");
+              window.location.href = "/owa/logoff.owa";
+          }
+      }
+
+      checkUTFEncoding();
+    
+      userScriptResources[userScriptResources.length] = { "fileName": "15.0.620.29/owa2/scripts/##LANG##/microsoft.exchange.clients.owa2.client.strings.localized.min.js", "layout": LT_ANY };
+      
+
+      function loadOwaScripts() {
+          loadScripts(extDropScriptResources);
+          loadScripts(userScriptResources);
+          loadScripts(scriptResources);
+      }
+
+      function setupUserSpecificResources(serverVersion, curTheme, curCulture, curLang, isRtl)
+      {
+          var redirectParam = 'ver' + '=' + serverVersion;
+
+          if (!isMajorVersionChanged(sver, serverVersion) &&
+              (serverVersion == sver || 
+              (curTheme == clientTheme && curCulture == userCultureVar && curLang == userLanguageVar))|| 
+              window.location.href.indexOf(redirectParam) >=0)
+          {
+              clientTheme = curTheme;
+              userCultureVar = curCulture;
+              userLanguageVar = curLang;
+
+              document.getElementsByTagName("html")[0].setAttribute('dir', isRtl ? "rtl" : "ltr");
+              loadOwaScripts();
+          }
+          else
+          {
+              redirect('ver', serverVersion,'cver', sver);
+          }
+      }
+    
+    window.owaSD=new XMLHttpRequest();
+
+    // If we are loading a specifiv view model, we don't need to invoke seesiondata.ashx
+    var isPopOut = window.location.href.indexOf('ispopout=1') > 0; 
+
+    if (!isPopOut)
+    {
+        window.owaSD.open("POST","sessiondata.ashx");
+      
+        window.owaSD.consumable=false;
+        window.owaSD.consumed = false;
+
+        window.owaSD.onreadystatechange = function () {
+            if (!window.owaSD || window.owaSD.readyState != 4)
+                return;
+            if (window.owaSD.status == 440 && document.cookie.indexOf("PALEnabled") == -1 && window.location.search.indexOf("palenabled=1") == -1)
+                redirect('authRedirect', 'true');
+
+            window.owaSD.receivedTime = (new Date()).toString();
+            if (window.owaSD.consumable && !window.owaSD.consumed)
+                owastart();
+        }
+            
+        window.owaSD.send();
+    }
+        
+    </script>
+
+    <!-- Load core scripts/css normally -->
+    <script src="15.0.620.29/owa2/scripts/preboot.0.js"></script>
+    <script src="userspecificresourceinjector.ashx?ver=15.0.620.29"></script>
+    <!-- Include scripts from the client side.  Method defined in default.js -->
+    <script>
+        includeScriptsAndStyles(slabManifest, "15.0.620.29/owa2/scripts", "15.0.620.29/owa2/resources/styles", "15.0.620.29/owa2/resources/images/0");
+        loadStyles(styleResources);
+    </script>
+
+    
+    <style>
+        #owaLoading
+        {
+            background-color: #FFF;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            z-index: 10001;
+        }
+        
+        #loadingLogo, #loadingSpinner
+        {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        #loadingLogo
+        {
+            padding-top: 174px;
+            padding-bottom: 22px;
+        }
+        
+        .tnarrow #loadingLogo
+        {
+            padding-top: 52px;
+        }
+
+        /******* ActivityIndicator loadingSpinner *******/
+        /* Note: The CSS loadingSpinner animation should be in sync
+        with the css from animations.css in the owa client code */
+   
+        .loadingSpinnerContainer {
+            width: 32px;
+            height: 32px;
+            display: block;
+            vertical-align: top;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .smallSpinner 
+        {
+            width: 16px;
+            height: 16px;
+        }
+
+        .loadingSpinner 
+        {
+            width: 28px;
+            height: 28px;
+            position: relative;
+            padding: 4px 0 0 4px;
+            overflow: hidden;
+
+            -webkit-animation-duration: 1000ms;
+            -webkit-animation-iteration-count: infinite;
+            -webkit-animation-timing-function: steps(8, end);
+            -webkit-animation-name: rotate;
+
+            -moz-animation-duration: 1000ms;
+            -moz-animation-iteration-count: infinite;
+            -moz-animation-timing-function: steps(8, end);
+            -moz-animation-name: rotate;
+
+            -ms-animation-duration: 1000ms;
+            -ms-animation-iteration-count: infinite;
+            -ms-animation-timing-function: steps(8, end);
+            -ms-animation-name: rotate;
+
+            animation-duration: 1000ms;
+            animation-iteration-count: infinite;
+            animation-timing-function: steps(8, end);
+            animation-name: rotate;
+        }
+
+        .smallSpinner .loadingSpinner
+        {
+            width: 14px;
+            height: 14px;
+            padding: 2px 0 0 2px;
+        }
+
+        @-webkit-keyframes rotate {
+            from {
+                -webkit-transform: rotate(0deg);
+            }
+            to {
+                -webkit-transform: rotate(360deg);
+            }
+        }
+
+        @-moz-keyframes rotate {
+            from {
+                -moz-transform: rotate(0deg);
+            }
+            to {
+                -moz-transform: rotate(360deg);
+            }
+        }
+
+        @-ms-keyframes rotate {
+            from {
+                -ms-transform: rotate(0deg);
+            }
+            to {
+                -ms-transform: rotate(360deg);
+            }
+        }
+
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .loadingSpinner .loadingBall {
+            width: 6px;
+            height: 6px;
+            border-radius: 100%;
+            position: absolute;
+
+            -webkit-transform-origin: 12px 12px;
+            -moz-transform-origin: 12px 12px;
+            -ms-transform-origin: 12px 12px;
+            transform-origin: 12px 12px;
+        }
+
+        .smallSpinner .loadingSpinner .loadingBall 
+        {
+            width: 3px;
+            height: 3px;
+
+            -webkit-transform-origin: 6px 6px;
+            -moz-transform-origin: 6px 6px;
+            -ms-transform-origin: 6px 6px;
+            transform-origin: 6px 6px;
+        }
+
+        .loadingSpinner .loadingBall:nth-child(1) {
+
+            -webkit-transform: rotate(45deg);
+            -moz-transform: rotate(45deg);
+            -ms-transform: rotate(45deg);
+            transform: rotate(45deg);
+        }
+
+        .loadingSpinner .loadingBall:nth-child(2) 
+        {
+            opacity: .8;
+
+            -webkit-transform: rotate(0deg);
+            -moz-transform: rotate(0deg);
+            -ms-transform: rotate(0deg);
+            transform: rotate(0deg);
+        }
+
+        .loadingSpinner .loadingBall:nth-child(3) {
+            opacity: .6;
+
+            -webkit-transform: rotate(-45deg);
+            -moz-transform: rotate(-45deg);
+            -ms-transform: rotate(-45deg);
+            transform: rotate(-45deg);
+        }
+
+        .loadingSpinner .loadingBall:nth-child(4) {
+            opacity: .4;
+
+            -webkit-transform: rotate(-90deg);
+            -moz-transform: rotate(-90deg);
+            -ms-transform: rotate(-90deg);
+            transform: rotate(-90deg);
+        }
+
+        .loadingSpinner .loadingBall:nth-child(5) {
+            opacity: .25;
+
+            -webkit-transform: rotate(-135deg);
+            -moz-transform: rotate(-135deg);
+            -ms-transform: rotate(-135deg);
+            transform: rotate(-135deg);
+        }
+
+        .loadingSpinner .loadingBall:nth-child(6) {
+            opacity: .15;
+
+            -webkit-transform: rotate(-180deg);
+            -moz-transform: rotate(-180deg);
+            -ms-transform: rotate(-180deg);
+            transform: rotate(-180deg);
+        }
+
+        .loadingSpinner .loadingBall:nth-child(7) {
+            opacity: .075;
+
+            -webkit-transform: rotate(-225deg);
+            -moz-transform: rotate(-225deg);
+            -ms-transform: rotate(-225deg);
+            transform: rotate(-225deg);
+        }
+
+        .loadingSpinner .loadingBall:nth-child(8) {
+            opacity: .05;
+
+            -webkit-transform: rotate(-270deg);
+            -moz-transform: rotate(-270deg);
+            -ms-transform: rotate(-270deg);
+            transform: rotate(-270deg);
+        }
+
+        .loadingBallColor 
+        {
+            background: #0072c6;
+        }
+
+    </style>
+  </head>
+  <body>
+  
+    <div id="owaLoading">
+      <img id="loadingLogo" alt="Outlook Web App">  
+          <img id="loadingSpinner" src="15.0.620.29/owa2/resources/images/0/loading_spinner_64x64.gif">
+          <div dir="ltr" class="loadingSpinnerContainer" id="cssloadingSpinnerContainer">
+              <div class="loadingSpinner loadingSpinnerAnimation">
+                  <div class="loadingBall loadingBallColor"></div>
+                  <div class="loadingBall loadingBallColor"></div>
+                  <div class="loadingBall loadingBallColor"></div>
+                  <div class="loadingBall loadingBallColor"></div>
+                  <div class="loadingBall loadingBallColor"></div>
+                  <div class="loadingBall loadingBallColor"></div>
+                  <div class="loadingBall loadingBallColor"></div>
+                  <div class="loadingBall loadingBallColor"></div>
+              </div>
+          </div>
+    </div>
+
+    <script>
+        function getInternetExplorerVersion()
+        // Returns the version of Internet Explorer or a -1
+        // (indicating the use of another browser).
+        {
+            var rv = -1; // Return value assumes failure.
+            if (navigator.appName == 'Microsoft Internet Explorer') {
+                var ua = navigator.userAgent;
+                var re  = new RegExp("MSIE ([0-9]{1,}[\.0-9]{0,})");
+                if (re.exec(ua) != null) {
+                    rv = parseFloat( RegExp.$1 );
+                }
+            }
+            return rv;
+        }
+
+        function initLoading() {
+            var logo = document.getElementById('loadingLogo');
+
+            // If we are on IE 9 or below, show GIF loadingSpinner, else show Css loadingSpinner
+            var ieVersion = getInternetExplorerVersion();
+            if (ieVersion != -1 && ieVersion < 10) {
+                document.getElementById('cssloadingSpinnerContainer').style.display = "none"
+            }
+            else {
+                document.getElementById('loadingSpinner').style.display = "none"
+            }
+            var layout = determineLayout();
+            if (logo) {
+                logo.src = '15.0.620.29/owa2/resources/images/0/owa_logo_' + layout + '.png';
+            }
+            var loading = document.getElementById('owaLoading');
+            if (loading) {
+                loading.className = layout;
+            }
+        }
+        initLoading();
+
+
+    <!-- Entry point -->
+
+    function invokeMain(){
+      Program.main({'version': '15.0.620.29','startTime': st,'cdnEndpoint': '','mapControlUrl': '','appDomainAppVirtualPath': '/owa','uiCulture': userCultureVar,'uiTheme':clientTheme,'osfStringPath': '15.0.620.29/owa2/scripts/ext/en/osfruntime_strings.js','scriptsFolder': '15.0.620.29/owa2/scripts'}, slabManifest);
+      PageDataPayload = {};
+    }
+
+    function handleBootError() {
+      if (appcacheVersion && !userEnabledOffline()) {
+        redirect('bO', "1");
+      } else if (!palEnabled && !userEnabledOffline()) {
+        window.location.replace('/owa/auth/errorfe.aspx?httpCode=500');
+      }
+    }
+
+    function owastart() {
+      if (!userSpecificsLoaded) {
+        handleBootError();
+        return;
+      }
+
+      if (!window.owaSD || window.owaSD.consumed) {
+          return;
+      }
+
+      window.owaSD.consumed=true;
+
+      if (window.owaSD.readyState == 4) { 
+          if (window.owaSD.status == 200) {
+              try {
+                  PageDataPayload = JsonParser.deserialize(window.owaSD.responseText);
+              } catch (e) { 
+                  handleBootError();
+              }
+          } else {
+              handleBootError();
+          }
+      }
+      
+      invokeMain();
+    }
+
+    function owastartpopout()
+    {
+      if (!userSpecificsLoaded) {
+        handleBootError();
+        return;
+      }
+
+      invokeMain();
+    }
+
+    if (isPopOut) {
+        owastartpopout();
+    } else {
+        window.owaSD.consumable=true;
+        if (window.owaSD.readyState == 4 || userEnabledOffline()) owastart();
+    }
+
+    </script>
+  </body>
+</html>

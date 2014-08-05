@@ -1,0 +1,452 @@
+@charset "utf-8";
+
+html {
+	background-color:#561F11;
+}
+
+html,form,img {
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+
+body {
+	margin:auto;
+	color: #333333;
+	font-size: 14px;
+	background-color:#561F11;
+	font-family:"franklin-gothic-urw",Arial, Helvetica, sans-serif;
+	position:relative;
+}
+
+a {
+	color: #00b193;
+	font-weight: 500;
+	text-decoration:none;
+}
+
+a:hover {
+	color:#542010;
+}
+/*a { color:#00b193;858F01 }*/
+
+#grangerLogo { margin-bottom:8px;margin-left:17px; }
+
+.meta {
+	font-family: "ff-meta-web-pro","Arial Black", Gadget, sans-serif;
+	line-height: 1.5em;
+	font-size:16px;	
+}
+
+p, li, td, .newsContent {
+	font-family:"franklin-gothic-urw","Trebuchet MS", Trebuchet, Helvetica, Arial, sans-serif;
+	line-height: 1.5em;
+	font-size:14px;
+}
+li {
+	padding:3px 0;
+}
+
+input, textarea, select {
+	font-family:"franklin-gothic-urw","Trebuchet MS", Trebuchet, Helvetica, Arial, sans-serif;
+	font-size:14px;
+}
+
+strong {
+	color:#542010;
+}
+
+sup { vertical-align: top; position: relative; line-height:7px; }
+
+.lightGreen {
+	color:#858F01;
+}
+.gray {
+	background-color:#e6e6e6;
+}
+
+.bigGreenText {
+	color:#858F01;
+	font-family:'Trebuchet MS', Trebuchet, Helvetica, Arial, sans-serif;
+	font-size:18px;
+	line-height:1.6em;
+}
+
+/* Content Areas */
+#wrap {
+	margin:0 auto;
+	position:relative;
+	width:800px;
+}
+#debug {
+	position:absolute;
+	left:-100px;
+	color:white;
+	height:500px;
+	overflow:hidden
+}
+#salePanel {
+	display:none;
+	position:absolute;
+	left:0;
+	top:154px;
+	z-index:1;
+}
+
+/* Headers */
+
+h1.treb {
+	margin: 0;
+	padding: 0;
+	color:#542010;
+	font-family:"franklin-gothic-urw","Trebuchet MS", Trebuchet, Helvetica, Arial, sans-serif;
+	font-size:22px;
+	font-weight:400;
+	/*font-weight:bold;*/
+	line-height:1em;
+}
+
+h1 {
+	margin: 0;
+	padding: 0;
+	color:#542010;
+	font-family:"ff-meta-web-pro","Arial Black", Trebuchet, Helvetica, Arial, sans-serif;
+	font-size:22px;
+	font-weight:700;
+	/*font-weight:bold;*/
+	line-height:1em;
+}
+
+h2 {
+	padding: 0 0 5px 0;
+	background:url('/images/dot.gif') 0px bottom repeat-x;
+	margin: 0 0 10px 0;
+	/*letter-spacing: 1px;*/
+	font-family:"franklin-gothic-urw","Trebuchet MS", Trebuchet, Helvetica, Arial, sans-serif;
+	font-size: 18px;
+	/*font-style:italic;*/
+	font-weight:500;
+	color:#00b193;
+}
+
+h3 {
+	font-family:"franklin-gothic-urw","Trebuchet MS", Trebuchet, Helvetica, Arial, sans-serif;
+	font-size: 16px;
+	font-style:italic;
+	color:#542010;
+	margin:5px 0 2px 0;
+	padding:0;
+	font-weight:400;
+}
+
+#page-container {
+	padding:25px;
+	background: white;
+	text-align: left;
+}
+
+/* Navigation */
+#header {
+	position:relative;
+	height:126px;
+}
+
+#logo {
+	position:absolute;
+	left:0;
+	bottom:0;
+}
+
+#topNav {
+	margin:0;
+	padding:0;
+	float:right;
+	clear:both;
+	display:block;
+	font-size:8pt;
+	height:12px;
+}
+#topNav li {
+	position:relative;
+	float:left;
+	padding:0px 13px;
+	list-style:none;
+	border-right:1px solid #ccc;
+	height:13px;
+}
+#topNav .last {
+	padding-right:0;
+	border:0;
+}
+
+#mainNav {
+	position:absolute;
+	right:0;
+	bottom:2px;
+	margin:0;
+	padding:0;
+	z-index:99;
+}
+#mainNav li {
+	position:relative;
+	display:block;
+	float:left;
+	padding:0;
+	margin-right:6px;
+	list-style:none;
+	font-family:"Trebuchet MS", Trebuchet, Helvetica, Arial, sans-serif;
+	font-size:10pt;
+	height:26px;
+	background-repeat:no-repeat;
+	cursor:pointer;
+
+}
+#mainNav .last {
+	padding-right:0;
+	margin-right:0;
+}
+
+#navAbout    { width:122px; background-image:url('/images/navAbout.gif'); }
+#navServices { width:132px; background-image:url('/images/navServices.gif'); }
+#navEnergy   { width:122px; background-image:url('/images/navEnergy.gif'); }
+#navCustomer { width:132px; background-image:url('/images/navCustomer.gif'); }
+.over      { background-position:bottom; }
+
+.menu {
+	position:absolute;
+	height:100%;
+	top:20px;
+	left:0px;
+	width:200px;
+	display:none;
+	padding:0;
+	font-style:italic;
+	z-index:99;
+}
+#menuServices { width:420px }
+
+.menuTop      { background-image:url('/images/menuTop.gif'); height:7px; overflow:hidden; }
+.menuCenter   { background-image:url('/images/menuCenter.png'); background-repeat:repeat-y; padding:10px 17px; }
+.menuBottom   { background-image:url('/images/menuBottom.png'); height:7px; overflow:hidden; }
+
+.menuTopServices    { background-image:url('/images/menuTopServices.gif'); height:7px; overflow:hidden; }
+.menuCenterServices { background-image:url('/images/menuCenterServices.png'); background-repeat:repeat-y; padding:10px 17px; }
+.menuBottomServices { background-image:url('/images/menuBottomServices.png'); height:7px; overflow:hidden; }
+
+.menuTopCustomer    { background-image:url('/images/menuTop.png'); height:7px; overflow:hidden; }
+
+.menu a {
+	display:block;
+	background-color:#ffffff;
+	margin:0;
+	padding:2px 0;
+	color:#777;
+}
+
+.menu a:hover {
+	color:#542010;
+}
+
+#sideNav {
+	float:left;
+	width:170px;
+	text-align:right;
+	font-family:"franklin-gothic-urw","Trebuchet MS", Trebuchet, Helvetica, Arial, sans-serif;
+	font-size:14px;
+	font-style:italic;
+}
+
+#sideNav a {
+	display:block;
+	margin:0;
+	padding-bottom:2px;
+	color:#777;
+	font-weight:300;
+}
+
+#sideNav a:hover, #sideNav .navOver {
+	color:#542010;
+	font-weight:300;
+}
+
+#subNav {
+	font-style:normal;
+	font-family:"franklin-gothic-urw",Helvetica, Arial, sans-serif;
+	font-size:14px;
+	margin-bottom:5px;
+}
+#subNav a:hover, #subNav .navOver {
+	color: #00b193;
+	font-weight:300;
+	/*color: #858F01;*/
+}
+
+/* Content Section Styles */
+.dots {
+	height:2px;
+	background:url('/images/dot.gif') repeat-x;
+}
+
+.faq_q {
+	position:relative;
+	font-family:"Trebuchet MS", Trebuchet, Helvetica, Arial, sans-serif;
+	background-color:#9a9a9a;
+	padding:5px 10px;
+	font-size:16px;
+	font-weight:bold;
+	color:white;
+	cursor:pointer;
+	margin-bottom:10px;
+}
+
+.faq_a {
+	font-family:"Trebuchet MS", Trebuchet, Helvetica, Arial, sans-serif;
+	font-style:italic;
+	line-height: 1.5em;
+	font-size:9pt;
+	padding-top:10px;
+	display:none;
+}
+
+.faq_a a {
+	color:#542010;
+}
+
+.faq_a a:hover {
+	text-decoration:underline;
+}
+
+.r {
+	position:absolute; 
+	width:10px; height:10px; 
+	background-image:url(/images/rounds.png);
+}
+.r1 { top:0; left:0; background-position:top left; }
+.r2 { top:0; right:0; background-position:top right; }
+.r3 { bottom:0; left:0; background-position:bottom left; }
+.r4 { bottom:0; right:0; background-position:bottom right; }
+
+#content {
+	width:534px;
+	float:right;
+}
+
+#content p {
+	margin: 0;
+	padding: 0;
+	padding-bottom: 15px;
+}
+
+.grid {
+	border-collapse:collapse;
+}
+.grid th {
+	background-color:#ddd;
+	border:1px solid #bbb;
+}
+.grid td {
+	border:1px solid #bbb;
+}
+
+/* Bubbles */
+.newsBubble       { display:none; position:absolute; bottom:17px; left:-10px; width:454px; font-family:"Trebuchet MS", Trebuchet, Helvetica, Arial, sans-serif; font-style:italic; color:#542010; }
+.newsBubbleTop    { background-image:url('/images/newsBubbleTop.png'); height:13px; overflow:hidden; }
+.newsBubbleMiddle { background-image:url('/images/newsBubbleMiddle.png'); background-repeat:repeat-y; padding:10px 17px; }
+.newsBubbleBottom { background-image:url('/images/newsBubbleBottom.png'); height:14px; overflow:hidden; }
+.newsTitle        { font-family:"Trebuchet MS", Trebuchet, Helvetica, Arial, sans-serif; font-size:20px; font-style:italic; }
+.newsDateTime     { font-family:"Trebuchet MS", Trebuchet, Helvetica, Arial, sans-serif; font-weight:bold; }
+.newsLocation     { color:#999999; }
+.newsTriangle     { background-image:url('/images/newsTriangle.png'); width:65px; height:32px; overflow:hidden; position:absolute; left:58px; bottom:-23px }
+
+.iconBubble       { z-index:99; display:none; position:absolute; bottom:-10px; right:85px; width:244px; font-family:"Trebuchet MS", Trebuchet, Helvetica, Arial, sans-serif; font-style:italic; color:#542010; }
+.iconBubble ul	  { padding:0 0 0 15px; }
+.iconBubbleTop    { background-image:url('/images/iconBubbleTop.png'); background-repeat:no-repeat; height:13px; overflow:hidden; }
+.iconBubbleMiddle { background-image:url('/images/iconBubbleMiddle.png'); background-repeat:repeat-y; padding:10px 42px 10px 17px; }
+.iconBubbleBottom { background-image:url('/images/iconBubbleBottom.png'); background-repeat:no-repeat; height:13px; overflow:hidden; }
+.iconTriangle     { background-image:url('/images/iconTriangle.png'); width:32px; height:65px; overflow:hidden; position:absolute; right:0; bottom:30px }
+.iconTitle        { font-family:"Trebuchet MS", Trebuchet, Helvetica, Arial, sans-serif; font-size:20px; font-style:italic; }
+
+
+/* Form Styles */
+.label {
+	font-size:14px;
+	color:#00b193;
+	font-family:"franklin-gothic-urw",Arial, Helvetica, sans-serif;
+}
+.field {
+	width:250px;
+	border:1px solid #999999;
+}
+.error {
+	background-color:#cccccc;
+}
+
+/* Desert Micro form errors */
+.SiteErrorMessage {
+	font-weight:bold;
+	border:1px solid red;
+}
+
+/* Footer Styles */
+#footer {
+	text-align:center;
+	font-size: 12px;
+	color:#542010;
+}
+.display {
+	display:block;
+}
+
+/* icons */
+.icon {
+	position:relative;
+	width:100px;
+	height:100px;
+	float:left;
+}
+
+.iconG             { background-image:url('/images/icons_guidelines.gif'); }
+#iconG_medical     { background-position:0 0 }
+#iconG_beverage    { background-position:-100px 0 }
+#iconG_lead        { background-position:-200px 0 }
+#iconG_tires       { background-position:-300px 0 }
+#iconG_pcbs        { background-position:-400px 0 }
+#iconG_radioactive { background-position:-500px 0 }
+#iconG_hazardous   { background-position:-600px 0 }
+#iconG_yard        { background-position:-700px 0 }
+#iconG_sewage      { background-position:-800px 0 }
+#iconG_liquid      { background-position:-900px 0 }
+#iconG_asbestos    { background-position:-1000px 0 }
+#iconG_oil         { background-position:-1100px 0 }
+
+.iconR             { background-image:url('/images/icons_residential.gif'); }
+#iconR_large       { background-position:0 0 }
+#iconR_bag_tag     { background-position:-100px 0 }
+#iconR_recycle_st  { background-position:-200px 0 }
+#iconR_recycle_sh  { background-position:-300px 0 }
+#iconR_six_bag     { background-position:-400px 0 }
+#iconR_regular     { background-position:-500px 0 }
+#iconR_temp_can    { background-position:-600px 0 }
+#iconR_yard_st     { background-position:-700px 0 }
+#iconR_bulk        { background-position:-800px 0 }
+#iconR_landfill    { background-position:-900px 0 }
+#iconR_yard_sh     { background-position:-1000px 0 }
+
+.iconB             { background-image:url('/images/icons_business.gif'); }
+#iconB_permanent   { background-position:0 0 }
+#iconB_temporary   { background-position:-100px 0 }
+#iconB_dropoff     { background-position:-200px 0 }
+#iconB_compactor   { background-position:-300px 0 }
+#iconB_onsite      { background-position:-400px 0 }
+#iconB_selfhaul    { background-position:-500px 0 }
+#iconB_compost     { background-position:-600px 0 }
+
+.iconC             { background-image:url('/images/icons_contractor.gif'); }
+#iconC_rolloff     { background-position:0 0 }
+#iconC_onsite      { background-position:-100px 0 }
+#iconC_convert     { background-position:-200px 0 }
+#iconC_dropoff     { background-position:-300px 0 }
+#iconC_compactor   { background-position:-400px 0 }
+#iconC_selfhaul    { background-position:-500px 0 }
+#iconC_compost     { background-position:-600px 0 }
+

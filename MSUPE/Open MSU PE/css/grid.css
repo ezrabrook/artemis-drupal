@@ -1,0 +1,9 @@
+/* Format and CSS for Large Desktop Versions
+* Large Display 1210px and Up
+*/
+
+@media only screen
+and (min-width: 1210px) {
+	.navbar {font-size: 1.4em;}
+	.apply_now h2 {font-size: 31.5px;}
+}

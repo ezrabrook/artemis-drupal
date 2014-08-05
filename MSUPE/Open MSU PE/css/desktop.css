@@ -1,0 +1,84 @@
+/* Format for default desktop versions 
+*  Screen size 940px to 1210px
+*/
+
+
+h1{}
+h2{}
+h3{}
+h4{}
+h5{}
+p{}
+
+body{background: url('../images/transparent_foreground_large.png') no-repeat right;}
+/* Get rid of header margin that is weird*/
+body.toolbar-drawer {padding-top: 5.3em;} 
+
+/*--------
+Custom Styles
+----*/
+/*Large Tablet to Small Desktop*/
+@media only screen and (min-width: 940px) {
+    .site-main-menu ul.menu li {margin: 5px 0 5px 0; border-right: 2px solid #777;}
+    .navbar{ margin: 0 auto 0 auto; font-size:1.4em; }
+    /*.navbar-inner {border:none;}*/
+    .footer_menu_bar .menu a{color: #fff; font-size: 1em;}
+    .footer_menu_bar ul li.leaf{list-style-type:none; list-style-image:none; display:inline-block; padding:1em 1em 1em 0; }
+
+
+}
+/*Desktop and Up*/
+	@media only screen
+	and (min-width: 1025px) {
+    .site-main-menu ul.menu li {margin: 10px 0 10px 0;}
+    .header .site-logo {width:660px;}
+    .header {margin: 0 0 0 0; }
+    .msu_logo img{width: 370px;}
+    #block-block-3 img {padding-top:18px;}
+    .navbar {}
+    #footer >.container {width:100%;}
+    #footer { height: 100%; color:#fff;}
+    .footer-copyright{ width:65%;}
+    .footer_menu_bar .menu{ list-style-type:none; display:inline; float: left; border-bottom:2px solid #fff;}
+    .footer_menu_bar ul li.leaf{list-style-type:none; list-style-image:none; display:inline-block; padding:1em 1em 1em 0; }
+    .footer_menu_bar a:hover{background-color:#fff; text-decoration:underline;}
+    .footer_menu_bar .nav > li > a:hover {background-color: transparent; text-decoration:underline;}
+    .footer_menu li > a.active {color: #fff!important; text-decoration:underline;}
+    .footer_menu_bar a {color: #fff; font-size: 1.20em;}
+    
+    
+    .carousel {max-width: 940px; margin: 0 auto;}
+    .carousel-indicators {float: left; position:relative; top: -48px; left: 15px;}
+    .carousel-caption { text-align:center; display:inline;}
+    .carousel-caption h4{float:left; position:relative; left:100px; margin: 6px 0 5px; font-size:30px; letter-spacing:0.07em;}
+    .slideshow-button{position:relative; right: 15px;}
+    
+   
+    .navbar-inner {border:none;}
+    .navbar .container {width:980px; margin-left:auto; margin-right:auto;}
+    
+    .btn-info {float:right;}
+    .msu_logo_header{ padding-top:20px;}
+    .pelogo img{ padding-top:3px; }
+    
+    /*Faculty*/
+    .faculty_profile_image img{width: 570px;}
+    .faculty_title {font-size:1.25em;}
+	
+    .navbar {font-size: 1.35em;}
+    .header {padding:10px;}
+    .site-footer { padding:10px;}
+
+    .apply_now h2 {font-size:28.5px;}
+
+}
+/* Format and CSS for Large Desktop Versions
+* Large Display 1210px and Up
+*/
+
+@media only screen
+and (min-width: 1210px) {
+	.navbar {}
+	
+	.footer_menu_bar {font-size: 1.25em;}
+}

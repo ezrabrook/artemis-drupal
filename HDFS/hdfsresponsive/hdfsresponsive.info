@@ -1,0 +1,37 @@
+; $Id: garland.info,v 1.5 2007/07/01 23:27:32 goba Exp $
+name = HDFS Responsive Theme
+description = Theme for MSU HDFS website.
+version = VERSION
+core = 6.x
+engine = phptemplate
+stylesheets[all][] = style.css
+stylesheets[all][] = css/bootstrap.css
+
+scripts[] = js/bootstrap.js
+scripts[] = js/jquery.expander.min.js
+scripts[] = js/functions.js
+scripts[] = js/min-heights.js
+
+
+regions[header_rotator] = Header Image Rotator
+regions[header] = Header
+regions[feature_rotator] = Feature Rotator
+regions[content] = Content
+regions[left] = Left Sidebar
+regions[right] = Right Sidebar
+regions[title_header] = Title Area Header
+regions[program_intro] = Front Page: Program Intro
+regions[front_areas] = Front Page: Areas of Focus
+regions[outreach_main] = Front Page: Outreach Main
+regions[outreach_left] = Front Page: Outreach Left
+regions[outreach_middle] = Front Page: Outreach Middle
+regions[outreach_right] = Front Page: Outreach Right
+regions[front_news] = Front Page: News & Events
+regions[footer] = Footer
+regions[footer_legal] = Legal Info
+regions[skip_content] = Skip Content
+
+; Information added by drupal.org packaging script on 2009-05-13
+version = "6.12"
+project = "drupal"
+datestamp = "1242243950"

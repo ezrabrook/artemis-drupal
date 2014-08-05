@@ -1,0 +1,8 @@
+/*==========  Non-Mobile First Method  ==========*/
+
+/* Default */
+@import url(css/default.css);
+/* Medium Devices, Desktops */
+@import url(css/tablet.css);
+/* Small Devices, Tablets - max width 768px */
+@import url(css/mobile.css);

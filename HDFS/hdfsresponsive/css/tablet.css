@@ -1,0 +1,79 @@
+@media all and (max-width:1024px){
+	.feature {font-size: .9em;}
+	.feature_right.col-md-8 {margin-left:6px;}
+	
+
+}
+@media all and (max-width:991px) {
+	/* Header */
+	.logo_wrapper {padding-left:0!important; padding-right:0!important;}
+	.search_wrapper {padding-left:0!important; padding-right:0!important;}
+	.menu_wrapper {padding-left:0!important;}
+	#top_header .hdfs_logo {padding-bottom:20px; padding-left:10px; border-bottom:solid 4px #748f89;}
+	#top_header .hdfs_logo img {margin:auto;}
+	#top_header .search_bar {padding:10px; border-bottom:solid 4px #748f89;}
+	#top_header .search_bar #edit-submit-1 {top:9px;}
+	#top_header .main_menu {margin-left:0; border-bottom:solid 4px #748f89;}
+	#top_header .main_menu .navbar-toggle {margin:0; padding:7px 10px;}
+	#top_header .main_menu .navbar-toggle .icon-bar {height:3px; width:30px; background:#18453b;}
+	
+	/* Main Menu */
+	.mobile_tablet_menu .col-xs-12 {min-height:0;}
+	.mobile_tablet_menu .menu_collapse {margin-bottom:99px;}
+	.mobile_tablet_menu .menu_collapse ul {margin:0; padding:0;}
+	.mobile_tablet_menu .menu_collapse ul li {padding:10px; list-style:none; text-transform:uppercase; font-size:20px; background:#a3b5b1; border-bottom:solid 2px #fff; text-align:center;}
+	.mobile_tablet_menu .menu_collapse ul li.menu-1174 {display:none;}
+	.mobile_tablet_menu .menu_collapse ul li.last {border-bottom:0;}
+	.mobile_tablet_menu .menu_collapse ul li a {color:#18453b;}
+	
+	/* Home page Rotator */
+	.view-home-rotator .rotator_text {background:none; position:static; width:100%; padding:0;}
+	.view-home-rotator .rotator_text .rotator_title a h2 {font-size:16px;}
+	#views_slideshow_singleframe_teaser_section_home_rotator-block_1 {margin-bottom:28px;}
+	#views_slideshow_singleframe_teaser_section_home_rotator-block_1, .views_slideshow_singleframe_slide, .views_slideshow_singleframe_slide img {width:100%!important; height:381px!important;}
+	
+	/* Home page Programs */
+	.view-area-of-focus .views-row {width:95%; margin:0 auto 20px; float:none;}
+	
+	/* Outreach and Engagement */
+	.outreach_callouts .gray_bg {margin-bottom:3px; width:100%!important;}
+	.outreach_callouts .gray_callout {padding:10px 30px;}
+	.outreach_callouts .gray_callout h3 {margin-left:0; margin-bottom:0; text-align:left;}
+	
+	/* Side Navigation */
+	#main .sub_content_area {margin-top:0; overflow:hidden;}
+	#main .side_nav {width:250px; padding-top:0; margin-top:50px; position:absolute; right:-228px; z-index:999; box-shadow: 0 0 5px #333;}
+	#main .side_nav ul li {padding-left:20px; background:#18453B; cursor:pointer;}
+	#main .side_nav .mobile_sidenav_icon {position:absolute; right:250px; cursor:pointer;}
+	#main .side_nav .mobile_sidenav_icon .sidenav_left {width:36px; height:72px; background:url(images/left_arrow.png) no-repeat; display:block;}
+	#main .side_nav .mobile_sidenav_icon .sidenav_right {width:36px; height:72px; background:url(images/right_arrow.png) no-repeat; display:block;}
+	
+	/* Footer */
+	#footer .copyright_wrapper {width:100%!important; padding-left:20px;}
+	#footer .footer_links_wrapper {}
+	#footer .social_science_wrapper {margin-top:13px; width:16.6667%!important;}
+	#footer .msu_logo_wrapper {margin-top:13px; width:27%!important;}
+	#footer .social_science_wrapper img, #footer .msu_logo_wrapper img {margin:auto;}
+	#footer .footer_links {padding:15px;}
+	#footer .footer_links a {margin-left:30px; padding-right:30px;}
+	/*Feature*/
+	.feature {font-size:14px;}
+	.feature_right{width:82%!important;}
+	.feature_left {width:16%!important;} 
+	#block-views-feature_image_rotator-block_1 .views-slideshow-controls-bottom .views_slideshow_next {display:none;}
+	#block-views-feature_image_rotator-block_1 .views-slideshow-controls-bottom .views_slideshow_previous {display:none;}
+	
+	/*general */
+	.node {margin: 10px;}
+	
+}
+@media all and (max-width:911px) {
+	#footer .footer_links a {margin-left:20px; padding-right:20px;}
+}
+@media all and (max-width:850px) {
+	#footer .footer_links a {margin-left:10px; padding-right:10px;}
+	#views_slideshow_singleframe_teaser_section_home_rotator-block_1, .views_slideshow_singleframe_slide, .views_slideshow_singleframe_slide img {width:100%!important; height:327px!important;}
+	 /*Feature*/
+	/*.feature_right{width:75%;}
+	.feature_left {width:25%;} */
+}

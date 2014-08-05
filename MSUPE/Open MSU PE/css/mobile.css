@@ -1,0 +1,64 @@
+/* Format for mobile screen types
+* 
+*/
+
+/*Landscape and Portrait*/
+	@media only screen
+	and (min-device-width: 320px)
+	and (max-device-width: 480px){
+		.site-main-menu ul.menu li {border-right: none;}
+		.header { padding:10px;}
+		.site-footer {margin: 0 -20px; padding:10px;}
+		#block-menu-menu-footer{display:none;}
+	}
+
+	/*Portrait only*/
+	@media only screen
+	and (max-width: 320px){
+
+		.header { padding:10px;}
+		.site-footer {margin: 0 -20px; padding:10px;}
+		#block-menu-menu-footer{display:none;}
+		.site-main-menu ul.menu li {border-right: none;}
+
+	}
+
+	/*Landscape only*/
+	@media only screen
+	and (min-width: 321px)
+	and (max-width: 480px){
+		.image-callout img {width: 440px;}
+		.header { padding:10px;}
+		.site-footer { padding:10px;}
+		#block-menu-menu-footer{display:none;}
+		.site-main-menu ul.menu li {border-right: none;}
+
+	}
+	@media only screen and (max-width:480px)
+	{
+		p{font-size: 16px;}
+		.field-name-field-about-callout-title {font-size: 24.5px;}
+		h1 {font-size: 24.5px;}
+	}
+
+	/*Bigger than a phone but smaller than a tablet*/
+	@media only screen and (min-width:481px) and (max-width:767px){
+		.site-main-menu ul.menu li {border-right: none;}
+		.header { padding:10px;}
+		.site-footer {padding:10px;}
+		#block-menu-menu-footer{display:none;}
+
+	
+	}
+
+	/* iPhone 4 ----------- */
+	@media
+		only screen and (-webkit-min-device-pixel-ratio : 1.5)
+		only screen and (min-device-pixel-ratio : 1.5) {
+		#block-menu-menu-footer{display:none;}
+		.site-main-menu ul.menu li {border-right: none;}
+
+	}
+	@media only screen and (max-width:767px) {
+		.carousel-inner {text-align:center;}
+	}
