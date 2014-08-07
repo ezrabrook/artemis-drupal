@@ -1,8 +1,11 @@
 <?php
+
 /**
-* Artemis Custom Fixes Module
-*
-**/
+ * Send a simple email to specified recipient.
+ *
+ * @param string $message_subject
+ * @param string $message_body
+ */
 
 //Changes Workflow title to Submit for Approval
 function artemiscustomfixes_menu_alter(&$items) {
@@ -11,19 +14,12 @@ $items['node/%node/workflow']['title'] = 'Submit for Approval';
 
 }
 
-/**
- * Implement hook_form_alter()
- * Added custom button to nodes that are in workflow so moderators can choose
- * when to send a notification to the users. This will allow them to not have to use
- * the rules triggers each time. The redirect controls the submit and shows a confirmation
- * page. 
- */
 function artemiscustomfixes_form_alter(&$form, $form_state, $form_id) {
 	//get currently logged in user
 	global $user;
 		if(($node->type != 'webform') || ($node->type != 'profile') || ($node->type != 'page')){
 			if (user_access('administer nodes')){
-			  
+
 				if ($form['#node'] && ($form_id == $form['#node']->type . '_node_form')) {
 					//Change Wording of Submit Button (buttons = actions in drupal7)
 					$form['buttons']['submit']['#value'] = 'Save Without Sending Email';
@@ -37,48 +33,54 @@ function artemiscustomfixes_form_alter(&$form, $form_state, $form_id) {
 						// Use default and an additional submit handler.
 						'#submit' => array('node_form_submit', 'additional_node_form_submit'),
 					);
-					
+
 				}
 			}
 		}
-}		
-/**
- * Implement of additional form submit
- */
+}
+
+function artemiscustomfixes_mail($key, &$message, $params) {
+  $headers = array(
+    'MIME-Version' => '1.0',
+    'Content-Type' => 'text/html; charset=UTF-8; format=flowed',
+    'Content-Transfer-Encoding' => '8Bit',
+    'X-Mailer' => 'Drupal'
+  );
+  foreach ($headers as $key => $value) {
+    $message['headers'][$key] = $value;
+  }
+  $message['subject'] = $params['subject'];
+  $message['body'] = $params['body'];
+}
+
 function additional_node_form_submit($form, &$form_state) {
-  //get logged in user or node author
+    //get logged in user or node author
 	global $user;
 	$node = menu_get_object('node');
 	if($node)
 	{
 		$author = user_load($node->uid);
 	}
-	
+
 	//Programmatically write the email.
 	$subject = $node->title . " has edits";
 	$sid = workflow_node_current_state($node);
 	$state = array();
-	
 	$state = workflow_get_state($sid);
-
-	
-	$body = "Hello ". $author->name . ",  \n" .$node->title . " in " . $state["state"] .  " has been edited please log in at your earliest convenience to look over changes, edit, and resubmit the node. \n\nPlease note that changes will only be approved by moderators if the node has been placed in Request Approval state, or if the node is pending moderation. These can be looked on your profile or on your 'My Pending Nodes' screen. imds.greenlitestaging.com/user \nThank you, The IMDS ";
-	
-	$from = 'imds_moderator@tnc.org';
-	
-	$mail = $author->mail;
-	
-  
-	$message = array(
-		'to' => $mail,
-		'subject' => $subject,
-		'body' => $body,
-		'headers' => array(
-			'From' => $from, 
-		));
-	
-	drupal_mail_send($message);
     
-	drupal_goto('node/925');
-	
+    $mail_to = $author->mail;
+
+    $from = 'imds_moderator@tnc.org';
+    $body = "Hello ". $author->name . ",  \n" . $node->title . " in " . $state["state"] .  " has been edited please log in at your earliest convenience to look over changes, edit, and resubmit the node. \n\nPlease note that changes will only be approved by moderators if the node has been placed in Request Approval state, or if the node is pending moderation. These can be looked on your profile or on your 'My Pending Nodes' screen. imds.greenlitestaging.com/user \nThank you, The IMDS ";
+    $params = array(
+        'body' => $body,
+        'subject' => $subject,
+    );
+    
+    if (drupal_mail('artemiscustomfixes', 'artemiscustomfixes_mail', $mail_to, language_default(), $params, $from, TRUE))
+    {
+        drupal_set_message('An email has been sent to ' . $mail_to);
+    } else {
+        drupal_set_message('There was an error sending your email');
+    }
 }

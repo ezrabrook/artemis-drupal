@@ -33,7 +33,7 @@
 	#views_slideshow_singleframe_teaser_section_home_rotator-block_1, .views_slideshow_singleframe_slide, .views_slideshow_singleframe_slide img {width:100%!important; height:381px!important;}
 	
 	/* Home page Programs */
-	.view-area-of-focus .views-row {width:95%; margin:0 auto 20px; float:none;}
+	.view-area-of-focus-new .views-row {width:95%; margin:0 auto 20px; float:none;}
 	
 	/* Outreach and Engagement */
 	.outreach_callouts .gray_bg {margin-bottom:3px; width:100%!important;}

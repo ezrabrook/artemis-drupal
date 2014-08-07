@@ -94,6 +94,7 @@ $(document).ready(function() {
 		$(".mobile_sidenav_icon .sidenav_right").hide();
 		$(".mobile_sidenav_icon .sidenav_left").show();
 	});
+	
 	/* Assign Random classes to Faculty Images to get random colors on image bottom borders*/
 		function randOrd() {
 		return (Math.round(Math.random())-0.5); 
@@ -118,7 +119,7 @@ $(document).ready(function() {
 	});
 	
 	/* Add PDF/Doc icons to Documents. */
-	String.prototype.endsWith = function (suffix) {
+	/*String.prototype.endsWith = function (suffix) {
 		return this.indexOf(suffix, this.length - suffix.length) !== -1;
 	};
 	$('.sub_content_area .sub_right a').each(function () {
@@ -142,7 +143,7 @@ $(document).ready(function() {
 		}
 	});	
 	$.expander.defaults.slicePoint = 120;
-
+	*/
 	$(document).ready(function() {
 	  // simple example, using all default options unless overridden globally
 	  $('div.expander').expander();
@@ -167,4 +168,13 @@ $(document).ready(function() {
 	  });
 
 	});
+	//check if alt text on features has content then add a class to give it green style like homepage
+	if ($('#block-views-feature_image_rotator-block_1 .views-field-field-images-data  .field-content').is(':empty') ) {
+    $("#block-views-feature_image_rotator-block_1  .views-field-field-images-data").hide();
+	}
+	$("#webform-client-form-315 .webform-component").addClass( "form-group" );
+	$("#webform-client-form-315 .webform-component .form-text").addClass( "form-control" );
+	if ($('.sub_content_area .faculty-top') ){
+		$('.sub_content_area').addClass("no-margin");
+	}
 });

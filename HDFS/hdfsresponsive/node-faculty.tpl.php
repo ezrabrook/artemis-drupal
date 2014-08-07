@@ -1,8 +1,8 @@
 <?php
 // $Id: node.tpl.php,v 1.5 2007/10/11 09:51:29 goba Exp $
 ?>
-<div class="row" id="faculty-<?php print $node->nid; ?>" class="personview faculty node<?php if ($sticky) { print ' sticky'; } ?><?php if (!$status) { print ' node-unpublished'; } ?>">
-	<div id="profile">
+<div class="row faculty-top" id="faculty-<?php print $node->nid; ?>" class="personview faculty node<?php if ($sticky) { print ' sticky'; } ?><?php if (!$status) { print ' node-unpublished'; } ?>">
+	<div id="profile" class="col-md-12">
 		<div class="col-md-3 col-sm-6 col-xs-6" id="card"><img class="img-responsive faculty_image_landing" src="/<?php echo $field_responsive_photo[0][
 				"filepath"];?>">
 		
@@ -13,12 +13,12 @@
 					<h3 class="faculty_position"><?php echo $field_position[0]["view"]; ?></h3>
 					<?php if($field_vitae[0]["view"])echo "\t\t\t<a class=\"visible-xs pdf_vitae\" href=/".$field_vitae[0]["filepath"]."><div class=\"vitae col-md-4\"></div></a>\n"; ?>	
 					<div class="col-xs-12 hidden-xs">
-					<address><?php echo $field_address[0]["view"]; ?></address>
+					<a target="_blank" href="http://maps.google.com/?q='<?php echo $field_address[0]["view"];?>"><address><?php echo $field_address[0]["view"]; ?></address></a>
 
 						<?php
-						if($field_email[0]["value"])echo "\t\t\t<a href=\"mailto:".$field_email[0]["value"]."\" title=\"Email ".$title."\"><div class=\"col-md-4 email\">".$field_email[0]["value"]."</div></a>\n";
+						if($field_email[0]["value"])echo "\t\t\t<a href=\"mailto:".$field_email[0]["value"]."\" title=\"Email ".$title."\"><div class=\"col-md-4 email-page-single\">".$field_email[0]["value"]."</div></a>\n";
 						
-						if($field_phone[0]["value"]) echo "\t\t\t<div class=\"col-md-5 phone\"><span class=\"tel\">".$field_phone[0]["value"]."</span><br/>";
+						if($field_phone[0]["value"]) echo "\t\t\t<div class=\"col-md-5 phone\"><span class=\"tel\">".$field_phone[0]["value"]."</span></div><br/>";
 						if($field_fax[0]["value"])	echo "\t\t\t<span class=\"fax\">".$field_fax[0]["value"]."(fax)</span></div>\n";
 
 						?>
@@ -29,16 +29,16 @@
 	
 		<div class="row">
 				<div id="mobileaddress" class="col-xs-12 visible-xs">
-				<address><?php echo $field_address[0]["view"]; ?></address>
+					<a target="_blank" href="http://maps.google.com/?q='<?php echo $field_address[0]["view"];?>"><address><?php echo $field_address[0]["view"]; ?></address></a>
 
 					<?php
 					if($field_email[0]["value"])echo "\t\t\t<a href=\"mailto:".$field_email[0]["value"]."\" title=\"Email ".$title."\"><div class=\"col-md-4 email\">".$field_email[0]["value"]."</div></a>\n";
 					
-					if($field_phone[0]["value"]) echo "\t\t\t<a href=\"tel:".$field_phone[0]["value"]."\"><div class=\"col-md-4 phone\"><span class=\"tel\">".$field_phone[0]["value"]."</span></a><br/>";
+					if($field_phone[0]["value"]) echo "\t\t\t<a href=\"tel:".$field_phone[0]["value"]."\"><div class=\"col-md-4 phone\"><span class=\"tel\">".$field_phone[0]["value"]."</span></div></a><br/>";
 					if($field_fax[0]["value"])	echo "\t\t\t<span class=\"fax\">".$field_fax[0]["value"]."(fax)</span></div>\n";
 					?>
 				</div>
-				<div class="col-md-8 col-sm-12 col-xs-12" id="extendedbio">
+				<div class="col-md-8 col-sm-12 col-xs-12 visible-xs visible-sm visible-lg" id="extendedbio">
 					<?php if($field_education[0]["value"]) echo "\t\t<h3 class=\"education\">Education</h3><div class=\"education_content\"\n\t\t<p>".$field_education[0]["value"]."</p></div>\n"; ?>
 					<div class="hidden-xs">
 					<?php if($field_bio[0]["value"]) echo "\t\t<h3 class=\"hidden-xs bio_title\">Bio</h3>\n\t\t<div class=\"bio_content\">". $field_bio[0]["value"]."\n</div>"; ?>

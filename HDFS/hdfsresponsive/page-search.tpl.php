@@ -1,14 +1,15 @@
 <?php
 // $Id: page.tpl.php,v 1.18.2.1 2009/04/30 00:13:31 goba Exp $
-?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+?><!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?php print $language->language ?>" lang="<?php print $language->language ?>" dir="<?php print $language->dir ?>">
 	<head>
 		<?php print $head ?>
 		<title><?php print htmlentities($head_title); ?></title>
 		<?php print $styles ?>
-		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+		<!--script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script-->
+		<script src="/sites/all/themes/hdfsresponsive/js/bootstrap.js"></script>
 		<?php print $scripts ?>
+		
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	</head>
 
@@ -95,7 +96,7 @@
 					<div class="row">
 						<div class="sub_content_area">
 							<div class="col-md-12 col-sm-12 col-xs-12">
-								<?php if(($node->type != "faculty") && ($node->type != "area_of_focus")) echo "\t\t<h1 id=\"pagetitle\"><img width=\"35\" height=\"35\" src=\"/sites/all/themes/hdfsresponsive/css/images/circle_arrow.png\" />".$title."</h1>\n"; ?>
+								<?php if(($node->type != "faculty") && ($node->type != "area_of_focus")): echo '<h1 id="pagetitle">' . $title .'</h1>'; endif; ?>
 								<?php if ($tabs): print '<div id="tabs-wrapper">'; endif; ?>
 								<?php if ($tabs): print '<ul class="tabs primary">'. $tabs .'</ul></div>'; endif; ?>
 								<?php if ($tabs2): print '<ul class="tabs secondary">'. $tabs2 .'</ul>'; endif; ?>
@@ -115,8 +116,8 @@
 							<div class="copyright_text">
 								Human Development and Family Studies<br />
 								College of Social Science <br />
-								&copy; <?php echo date('Y'); ?> Michigan State University Board<br />
-								of Trustees. East Lansing MI 48824
+								&copy; <?php echo date('Y'); ?> Michigan State University Board of Trustees <br/>
+								East Lansing, MI 48824
 							</div>
 						</div>
 						<div class="col-md-5 col-sm-7 footer_links_wrapper hidden-xs">
@@ -151,5 +152,6 @@
 				</div>
 			</div>
 		</div>
+		<?php print $closure ?>
 	</body>
 </html>

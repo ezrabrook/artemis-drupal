@@ -7,7 +7,7 @@ engine = phptemplate
 stylesheets[all][] = style.css
 stylesheets[all][] = css/bootstrap.css
 
-scripts[] = js/bootstrap.js
+
 scripts[] = js/jquery.expander.min.js
 scripts[] = js/functions.js
 scripts[] = js/min-heights.js
